@@ -3,10 +3,10 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { UserButton } from "@clerk/clerk-react";
 
 const navigation = [
-  { name: 'Canvas', href: '/canvas', current: false },
-  { name: 'Pair Canvas', href: '/pair-canvas', current: false },
-  { name: 'Notes', href: '/notes', current: false },
-  { name: 'Store', href: '/store', current: false },
+  { name: 'Home', href: '/home', current: false },
+  { name: 'New Pair', href: '/new-pair', current: false },
+  { name: 'Pairlist', href: '/pairlist', current: false },
+  // { name: 'Store', href: '/store', current: false },
 ]
 
 function classNames(...classes: string[]) {
