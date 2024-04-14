@@ -15,6 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ClerkProvider 
     publishableKey={PUBLISHABLE_KEY} 
+      afterSignUpUrl="/home"
 >
       <App />
     </ClerkProvider>
