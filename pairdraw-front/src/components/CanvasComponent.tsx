@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useEffect, useState } from "react";
+import { MdFileDownload } from "react-icons/md";
+
 import "./canvas.css";
 
 const CanvasComponent = () => {
@@ -32,8 +34,8 @@ const CanvasComponent = () => {
       }
 
       // Set canvas background to white
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white"; // Set background color to white
+      ctx.fillRect(0, 0, canvas.width, canvas.height); // Fill the entire canvas with white
 
       // Draw grid
       const gridSize = 10; // smaller grid size
@@ -200,6 +202,36 @@ const CanvasComponent = () => {
     setDrawing([]);
   };
 
+  const handleDownload = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Create a temporary canvas
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+
+    const tempCtx = tempCanvas.getContext("2d");
+    if (!tempCtx) return;
+    tempCtx.fillStyle = "white";
+
+    // Draw only the drawn elements on the temporary canvas
+    drawing.forEach((action) => {
+      if (action.type === "draw") {
+        drawLine(tempCtx, action);
+      }
+    });
+
+    // Convert the temporary canvas to an image URL with a PNG format and transparent background
+    const imageURL = tempCanvas.toDataURL("image/png");
+
+    // Create a link element to trigger the download
+    const link = document.createElement("a");
+    link.href = imageURL;
+    link.download = "canvas_image.png";
+    link.click();
+  };
+
   return (
     <>
       <div className="tools flex justify-center items-center mx-auto gap-4">
@@ -219,6 +251,9 @@ const CanvasComponent = () => {
         </div>
         <button className="btn-clear" onClick={clearCanvas}>
           Clear Canvas
+        </button>
+        <button className="btn-clear" onClick={handleDownload}>
+          <MdFileDownload size={30} />
         </button>
       </div>
       <canvas
