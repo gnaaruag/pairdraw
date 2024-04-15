@@ -95,7 +95,7 @@ const PairHome: FunctionComponent = () => {
           </div>
         )}
         {activeTab === "pair canvas" && (
-          <div id="img">
+          <div id="img" className="flex justify-center items-center mx-auto">
             <img src={imageSrc} alt="" />
           </div>
         )}

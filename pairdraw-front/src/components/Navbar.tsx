@@ -1,18 +1,19 @@
-import { Disclosure} from '@headlessui/react'
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Disclosure } from "@headlessui/react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { UserButton } from "@clerk/clerk-react";
+import logo from "../assets/logo.svg";
 
 const navigation = [
-  { name: 'Home', href: '/home', current: false },
-  { name: 'New Pair', href: '/new-pair', current: false },
-  { name: 'Pairlist', href: '/pairlist', current: false },
-  { name: 'Join Pair', href: '/join-pair', current: false },
-  { name: 'Freedraw', href: '/freedraw', current: false },
+  { name: "Home", href: "/home", current: false },
+  { name: "New Pair", href: "/new-pair", current: false },
+  { name: "Pairlist", href: "/pairlist", current: false },
+  { name: "Join Pair", href: "/join-pair", current: false },
+  { name: "Freedraw", href: "/freedraw", current: false },
   // { name: 'Store', href: '/store', current: false },
-]
+];
 
 function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+  return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
@@ -36,7 +37,7 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <h2 className='font-black text-white ml-4 '>Draw</h2>
+                  <a href="/home"><img src={logo} alt=""  className="h-10 w-10"/></a>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -45,10 +46,12 @@ export default function Navbar() {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                          'rounded-md px-3 py-2 text-sm font-medium'
+                          item.current
+                            ? "bg-gray-900 text-white"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          "rounded-md px-3 py-2 text-sm font-medium"
                         )}
-                        aria-current={item.current ? 'page' : undefined}
+                        aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
                       </a>
@@ -65,7 +68,7 @@ export default function Navbar() {
                 </button>
 
                 {/* Profile dropdown */}
-                <UserButton afterSignOutUrl='/' />
+                <UserButton afterSignOutUrl="/" />
               </div>
             </div>
           </div>
@@ -78,10 +81,12 @@ export default function Navbar() {
                   as="a"
                   href={item.href}
                   className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'block rounded-md px-3 py-2 text-base font-medium'
+                    item.current
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                    "block rounded-md px-3 py-2 text-base font-medium"
                   )}
-                  aria-current={item.current ? 'page' : undefined}
+                  aria-current={item.current ? "page" : undefined}
                 >
                   {item.name}
                 </Disclosure.Button>
@@ -91,5 +96,5 @@ export default function Navbar() {
         </>
       )}
     </Disclosure>
-  )
+  );
 }
