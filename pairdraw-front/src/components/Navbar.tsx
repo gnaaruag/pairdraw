@@ -6,6 +6,8 @@ const navigation = [
   { name: 'Home', href: '/home', current: false },
   { name: 'New Pair', href: '/new-pair', current: false },
   { name: 'Pairlist', href: '/pairlist', current: false },
+  { name: 'Join Pair', href: '/join-pair', current: false },
+  { name: 'Freedraw', href: '/freedraw', current: false },
   // { name: 'Store', href: '/store', current: false },
 ]
 

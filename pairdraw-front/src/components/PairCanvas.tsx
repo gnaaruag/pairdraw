@@ -1,19 +1,28 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useEffect, useState } from "react";
 import { MdFileDownload } from "react-icons/md";
 import { FaPalette } from "react-icons/fa";
 import { LuPaintbrush } from "react-icons/lu";
 import { MdClear } from "react-icons/md";
+import { LuSend } from "react-icons/lu";
 
 import "./canvas.css";
+import { useUser } from "@clerk/clerk-react";
+import { API_ENDPOINT } from "../config/constants";
 
-const CanvasComponent = () => {
+interface PairCanvasProps {
+  pairId: any; // Define the pairId prop
+}
+
+const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [color, setColor] = useState<string>("#FF0069");
   const [lineWidth, setLineWidth] = useState<number>(5);
   const [drawing, setDrawing] = useState<Array<any>>([]); // Store drawing commands
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
   const [isTouchDown, setIsTouchDown] = useState<boolean>(false);
+  const { user } = useUser();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -30,7 +39,7 @@ const CanvasComponent = () => {
       if (parent) {
         canvas.width = parent.clientWidth || 900; // Default width
         if (canvas.width > 700) {
-          canvas.height = canvas.width * 0.4;
+          canvas.height = canvas.width * 0.35;
         } else {
           canvas.height = canvas.width * 1.5; // Height ratio
         }
@@ -225,6 +234,8 @@ const CanvasComponent = () => {
       }
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
     // Convert the temporary canvas to an image URL with a PNG format and transparent background
     const imageURL = tempCanvas.toDataURL("image/png");
 
@@ -233,6 +244,53 @@ const CanvasComponent = () => {
     link.href = imageURL;
     link.download = "canvas_image.png";
     link.click();
+  };
+
+  const sendBackend = async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Create a temporary canvas
+    const tempCanvas = document.createElement("canvas");
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+
+    const tempCtx = tempCanvas.getContext("2d");
+    if (!tempCtx) return;
+    tempCtx.fillStyle = "white";
+
+    // Draw only the drawn elements on the temporary canvas
+    drawing.forEach((action) => {
+      if (action.type === "draw") {
+        drawLine(tempCtx, action);
+      }
+    });
+
+    const base64Canvas = tempCanvas
+      .toDataURL("image/jpeg")
+      .split(";base64,")[1];
+
+    try {
+      const response = await fetch(API_ENDPOINT + "/upload-image", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pairID: pairId,
+          user: user?.emailAddresses[0].emailAddress,
+          image: base64Canvas,
+        }),
+      });
+      if (response.ok) {
+        // If the POST request is successful, navigate to "/pairlist"
+      } else {
+        // Handle error
+        console.error("Failed to submit form");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -273,6 +331,13 @@ const CanvasComponent = () => {
           >
             <MdFileDownload size={20} />
           </button>
+          <button
+            className="btn-clear p-2 rounded-md"
+            title="Send to your pair"
+            onClick={sendBackend}
+          >
+            <LuSend size={20} />
+          </button>
         </div>
       </div>
       <canvas
@@ -285,9 +350,10 @@ const CanvasComponent = () => {
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
+        // onChange={}
       />
     </>
   );
 };
 
-export default CanvasComponent;
+export default PairCanvasComponent;

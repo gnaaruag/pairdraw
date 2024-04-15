@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import Navbar from "../components/Navbar";
 import CanvasComponent from "../components/CanvasComponent";
 
-const Canvas: FunctionComponent = () => {
+const FreeDrawCanvas: FunctionComponent = () => {
   return (
   <>
 	<Navbar />
@@ -11,4 +11,4 @@ const Canvas: FunctionComponent = () => {
   )
 };
 
-export default Canvas;
+export default FreeDrawCanvas;

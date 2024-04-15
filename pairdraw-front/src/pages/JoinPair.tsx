@@ -7,19 +7,19 @@ import { useUser } from "@clerk/clerk-react";
 interface NewPairProps {}
 
 const NewPair: React.FC<NewPairProps> = () => {
-  const [pairName, setPairName] = useState<string>("");
+  const [pairID, setPairID] = useState<string>("");
   const navigate = useNavigate();
   const { user } = useUser();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await fetch(API_ENDPOINT + "/new-pair", {
+      const response = await fetch(API_ENDPOINT + "/add-to-pair", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ pairName: pairName,
-          adminUser: user?.emailAddresses[0].emailAddress,
+        body: JSON.stringify({ pairID: pairID,
+          user: user?.emailAddresses[0].emailAddress,
          }),
       });
       if (response.ok) {
@@ -41,14 +41,14 @@ const NewPair: React.FC<NewPairProps> = () => {
         <h2 className="text-xl font-semibold mb-4">Create New Pair</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="pairName" className="block text-gray-700">
-              Pair Name:
+            <label htmlFor="pairID" className="block text-gray-700">
+              Enter Pair ID:
             </label>
             <input
               type="text"
-              id="pairName"
-              value={pairName}
-              onChange={(e) => setPairName(e.target.value)}
+              id="pairID"
+              value={pairID}
+              onChange={(e) => setPairID(e.target.value)}
               className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
             />
           </div>
