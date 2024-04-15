@@ -105,9 +105,9 @@ const sendImage = async (request, response) => {
 
         let imageData;
         if (user === pairing.adminUser) {
-            imageData = pairing.imageA;
-        } else {
             imageData = pairing.imageB;
+        } else {
+            imageData = pairing.imageA;
         }
 
 
