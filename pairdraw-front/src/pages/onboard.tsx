@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FunctionComponent, useEffect } from "react";
-import { SignIn, SignedOut, useUser } from "@clerk/clerk-react";
+import { SignIn, SignedIn, SignedOut, useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 
 const Onboard: FunctionComponent = () => {
@@ -10,10 +10,9 @@ const Onboard: FunctionComponent = () => {
   useEffect(() => {
     if (!isSignedIn) {
       // console.log("si");
-      navigate("/");
-    }
-    else {
-      navigate("/home");
+      return navigate("/");
+    } else {
+      return navigate("/home");
     }
   }, []);
 
@@ -24,6 +23,12 @@ const Onboard: FunctionComponent = () => {
         <SignedOut>
           <SignIn redirectUrl={"/home"} routing="path" path="/" />
         </SignedOut>
+        <SignedIn>
+          <div className="mt-2 flex flex-col gap-2 justify-center items-center mx-auto">
+            <h3 className="text-xl">You are already logged in</h3>
+            <a href="/home" className="text-purple-400">Go to home page</a>
+          </div>
+        </SignedIn>
       </div>
     </div>
   );

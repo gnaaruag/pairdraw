@@ -22,6 +22,7 @@ const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
   const [drawing, setDrawing] = useState<Array<any>>([]); // Store drawing commands
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
   const [isTouchDown, setIsTouchDown] = useState<boolean>(false);
+  const [sendButtonText, setSendButtonText] = useState("Send to your pair");
   const { user } = useUser();
 
   useEffect(() => {
@@ -284,6 +285,12 @@ const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
       });
       if (response.ok) {
         // If the POST request is successful, navigate to "/pairlist"
+        setSendButtonText("Sent");
+
+        // After 3 seconds, change button text back to its previous state
+        setTimeout(() => {
+          setSendButtonText("Send to your pair");
+        }, 3000);
       } else {
         // Handle error
         console.error("Failed to submit form");
@@ -336,7 +343,7 @@ const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
             title="Send to your pair"
             onClick={sendBackend}
           >
-            <LuSend size={20} />
+            {sendButtonText === "Sent" ? "Sent" : <LuSend size={20} />}
           </button>
         </div>
       </div>

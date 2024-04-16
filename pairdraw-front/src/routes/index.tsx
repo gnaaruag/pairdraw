@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import Onboard from "../pages/onboard";
 import Canvas from "../pages/FreeDrawCanvas";
 import ProtectedRoute from "./ProtectedRoute";
@@ -77,6 +77,12 @@ const router = createBrowserRouter([
 		<ProtectedRoute>
 			<FreeDrawCanvas />
 		</ProtectedRoute>
+	),
+  },
+  {
+    path: "/sso-callback?redirect_url=https%3A%2F%2Fpairdraw.vercel.app%2Fhome",
+    element: (
+      <Navigate to="/" replace />
 	),
   },
 ]);
