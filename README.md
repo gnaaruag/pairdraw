@@ -90,12 +90,12 @@ Contributions are welcome! If you'd like to contribute to PairDraw, please fork 
 
 ### Examples
 
+##### In any given pairing you can draw a doodle and send it to your friend (access it via your canvas under pairlist tab)
 ![image](https://github.com/gnaaruag/pairdraw/assets/68043860/60182276-0f80-44f5-af52-069dd98289db)
-In any given pairing you can draw a doodle and send it to your friend (access it via your canvas)
+##### You can see the memo/doodle your pairing has sent under the pair canvas tab
 ![image](https://github.com/gnaaruag/pairdraw/assets/68043860/50e0c084-65b1-4159-8e7c-dd70d7920845)
-You can see the memo/doodle your pairing has sent under the pair canvas tab
+##### There is a freedraw mode where you can draw doodles without having to be in a pair
 ![image](https://github.com/gnaaruag/pairdraw/assets/68043860/76b100e8-6314-4619-9e9a-880018774446)
-There is a freedraw mode where you can draw doodles without having to be in a pair
 
 ### Caveats/ Points to note
 
