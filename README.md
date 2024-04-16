@@ -1,6 +1,6 @@
 ## Pairdraw
 
-PairDraw is a fun and interactive platform that allows users to send hand-drawn memos and doodles to their friends. Whether it's a quick sketch, a heartfelt message, or a playful doodle, PairDraw makes communication personal and creative.
+PairDraw is a fun and interactive platform that allows users to send hand-drawn memos and doodles to their friends. PairDraw makes communication personal and creative via hand drawn sketches and memos
 
 ### Features
 
