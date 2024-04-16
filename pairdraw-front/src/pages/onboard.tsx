@@ -9,8 +9,11 @@ const Onboard: FunctionComponent = () => {
 
   useEffect(() => {
     if (!isSignedIn) {
-      console.log("si");
+      // console.log("si");
       navigate("/");
+    }
+    else {
+      navigate("/home");
     }
   }, []);
 
