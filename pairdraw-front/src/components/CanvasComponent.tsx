@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { MdFileDownload } from "react-icons/md";
 import { FaPalette } from "react-icons/fa";
 import { LuPaintbrush } from "react-icons/lu";
@@ -14,6 +16,8 @@ const CanvasComponent = () => {
   const [drawing, setDrawing] = useState<Array<any>>([]); // Store drawing commands
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
   const [isTouchDown, setIsTouchDown] = useState<boolean>(false);
+  const [undoStack, setUndoStack] = useState<Array<any>>([]);
+  const [redoStack, setRedoStack] = useState<Array<any>>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -66,7 +70,7 @@ const CanvasComponent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drawing]);
 
-  const redrawCanvas = (ctx: CanvasRenderingContext2D) => {
+  const redrawCanvas = useCallback((ctx: CanvasRenderingContext2D) => {
     // Clear canvas
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -84,9 +88,9 @@ const CanvasComponent = () => {
           break;
       }
     });
-  };
+  }, [drawing]);
 
-  const drawGrid = (ctx: CanvasRenderingContext2D) => {
+  const drawGrid = useCallback((ctx: CanvasRenderingContext2D) => {
     // Draw grid
     const gridSize = 10; // smaller grid size
     const gridColor = "lightgrey";
@@ -103,9 +107,9 @@ const CanvasComponent = () => {
     }
     ctx.strokeStyle = gridColor;
     ctx.stroke();
-  };
+  }, []);
 
-  const drawLine = (ctx: CanvasRenderingContext2D, params: any) => {
+  const drawLine = useCallback((ctx: CanvasRenderingContext2D, params: any) => {
     const { points, color, lineWidth } = params;
     ctx.beginPath();
     ctx.strokeStyle = color;
@@ -117,17 +121,17 @@ const CanvasComponent = () => {
       ctx.lineTo(points[i].x, points[i].y);
     }
     ctx.stroke();
-  };
+  }, []);
 
-  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleColorChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setColor(e.target.value);
-  };
+  }, []);
 
-  const handleLineWidthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLineWidthChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setLineWidth(parseInt(e.target.value));
-  };
+  }, []);
 
-  const startDrawing = (x: number, y: number) => {
+  const startDrawing = useCallback((x: number, y: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -139,9 +143,9 @@ const CanvasComponent = () => {
       ...prevDrawing,
       { type: "draw", points: [{ x: offsetX, y: offsetY }], color, lineWidth },
     ]);
-  };
+  }, [color, lineWidth]);
 
-  const continueDrawing = (x: number, y: number) => {
+  const continueDrawing = useCallback((x: number, y: number) => {
     if (!isMouseDown && !isTouchDown) return;
 
     const canvas = canvasRef.current;
@@ -162,50 +166,52 @@ const CanvasComponent = () => {
       });
       setDrawing(updatedDrawing);
     }
-  };
+  }, [isMouseDown, isTouchDown, drawing]);
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     setIsMouseDown(true);
     const { clientX, clientY } = e;
     startDrawing(clientX, clientY);
-  };
+  }, [startDrawing]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     const { clientX, clientY } = e;
     continueDrawing(clientX, clientY);
-  };
+  }, [continueDrawing]);
 
-  const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
     setIsMouseDown(false);
-  };
+  }, []);
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     setIsTouchDown(true);
     const touch = e.touches[0];
     const { clientX, clientY } = touch;
     startDrawing(clientX, clientY);
-  };
+  }, [startDrawing]);
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     const touch = e.touches[0];
     const { clientX, clientY } = touch;
     continueDrawing(clientX, clientY);
-  };
+  }, [continueDrawing]);
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = useCallback(() => {
     setIsTouchDown(false);
-  };
+  }, []);
 
-  const clearCanvas = () => {
+  const clearCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     setDrawing([]);
-  };
+    setUndoStack([]);
+    setRedoStack([]);
+  }, []);
 
-  const handleDownload = () => {
+  const handleDownload = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -233,7 +239,41 @@ const CanvasComponent = () => {
     link.href = imageURL;
     link.download = "canvas_image.png";
     link.click();
-  };
+  }, [drawing, drawLine]);
+
+  const undo = useCallback(() => {
+    if (drawing.length === 0) return;
+
+    const lastAction = drawing[drawing.length - 1];
+    setUndoStack((prevStack) => [...prevStack, lastAction]);
+    setDrawing((prevDrawing) => prevDrawing.slice(0, -1));
+  }, [drawing]);
+
+  const redo = useCallback(() => {
+    if (redoStack.length === 0) return;
+
+    const lastUndo = redoStack[redoStack.length - 1];
+    setRedoStack((prevStack) => [...prevStack, lastUndo]);
+    setDrawing((prevDrawing) => [...prevDrawing, lastUndo]);
+    setRedoStack((prevStack) => prevStack.slice(0, -1));
+  }, [redoStack]);
+
+  // Event listener for keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "z") {
+        undo();
+      } else if (event.ctrlKey && event.key === "y") {
+        redo();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [undo, redo]);
 
   return (
     <>

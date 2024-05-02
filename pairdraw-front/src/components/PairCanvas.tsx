@@ -24,6 +24,8 @@ const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
   const [isTouchDown, setIsTouchDown] = useState<boolean>(false);
   const [sendButtonText, setSendButtonText] = useState("Send to your pair");
   const { user } = useUser();
+  const [undoStack, setUndoStack] = useState<Array<any>>([]);
+  const [redoStack, setRedoStack] = useState<Array<any>>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -69,8 +71,6 @@ const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
     };
 
     drawGrid();
-
-    // Re-render the canvas when drawing changes
     redrawCanvas(ctx);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -235,8 +235,6 @@ const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
       }
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-
     // Convert the temporary canvas to an image URL with a PNG format and transparent background
     const imageURL = tempCanvas.toDataURL("image/png");
 
@@ -299,6 +297,42 @@ const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
       console.error("Error:", error);
     }
   };
+
+  // Function to undo the last drawing action
+  const undo = () => {
+    if (drawing.length === 0) return;
+
+    const lastAction = drawing[drawing.length - 1];
+    setUndoStack((prevStack) => [...prevStack, lastAction]);
+    setDrawing((prevDrawing) => prevDrawing.slice(0, -1));
+  };
+
+  // Function to redo the last undone drawing action
+  const redo = () => {
+    if (undoStack.length === 0) return;
+
+    const lastUndo = undoStack[undoStack.length - 1];
+    setRedoStack((prevStack) => [...prevStack, lastUndo]);
+    setDrawing((prevDrawing) => [...prevDrawing, lastUndo]);
+    setUndoStack((prevStack) => prevStack.slice(0, -1));
+  };
+
+  // Event listener for keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "z") {
+        undo();
+      } else if (event.ctrlKey && event.key === "y") {
+        redo();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [undo, redo]);
 
   return (
     <>
