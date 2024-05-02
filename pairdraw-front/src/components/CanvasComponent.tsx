@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useEffect, useState, useCallback } from "react";
@@ -16,7 +15,7 @@ const CanvasComponent = () => {
   const [drawing, setDrawing] = useState<Array<any>>([]); // Store drawing commands
   const [isMouseDown, setIsMouseDown] = useState<boolean>(false);
   const [isTouchDown, setIsTouchDown] = useState<boolean>(false);
-  const [undoStack, setUndoStack] = useState<Array<any>>([]);
+  const [, setUndoStack] = useState<Array<any>>([]);
   const [redoStack, setRedoStack] = useState<Array<any>>([]);
 
   useEffect(() => {

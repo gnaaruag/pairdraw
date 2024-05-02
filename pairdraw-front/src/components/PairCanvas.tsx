@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useEffect, useState } from "react";
 import { MdFileDownload } from "react-icons/md";
@@ -25,7 +24,7 @@ const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
   const [sendButtonText, setSendButtonText] = useState("Send to your pair");
   const { user } = useUser();
   const [undoStack, setUndoStack] = useState<Array<any>>([]);
-  const [redoStack, setRedoStack] = useState<Array<any>>([]);
+  const [, setRedoStack] = useState<Array<any>>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
