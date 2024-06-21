@@ -1,12 +1,12 @@
 import { FunctionComponent } from "react";
 import Navbar from "../components/Navbar";
-import CanvasComponent from "../components/CanvasComponent";
+import TldCanvas from "../components/TldCanvas";
 
 const FreeDrawCanvas: FunctionComponent = () => {
   return (
-  <>
-	<Navbar />
-  <CanvasComponent />
+    <>
+    <Navbar />
+    <TldCanvas />
   </>
   )
 };
