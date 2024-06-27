@@ -298,6 +298,7 @@ const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
   };
 
   // Function to undo the last drawing action
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const undo = () => {
     if (drawing.length === 0) return;
 
@@ -307,6 +308,7 @@ const PairCanvasComponent: React.FC<PairCanvasProps> = ({ pairId }) => {
   };
 
   // Function to redo the last undone drawing action
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const redo = () => {
     if (undoStack.length === 0) return;
 
