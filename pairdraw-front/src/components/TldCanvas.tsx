@@ -1,8 +1,7 @@
-import React from "react";
-import { FunctionComponent } from "react";
+
+import React, { FunctionComponent } from "react";
 import { Tldraw } from "tldraw";
 import "tldraw/tldraw.css";
-
 
 const TldCanvas: FunctionComponent = () => {
   return (
