@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Navbar from "../components/Navbar";
 import { API_ENDPOINT } from "../config/constants";
 import { useUser } from "@clerk/clerk-react";
+import React from "react";
 
 interface Pair {
   _id: { $oid: string };

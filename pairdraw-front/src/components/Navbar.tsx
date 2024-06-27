@@ -2,7 +2,7 @@ import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { UserButton } from "@clerk/clerk-react";
 import logo from "../assets/logo.svg";
-
+import React from "react";
 const navigation = [
   { name: "Home", href: "/home", current: false },
   { name: "New Pair", href: "/new-pair", current: false },

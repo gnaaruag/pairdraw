@@ -8,6 +8,7 @@ import {
   useUser,
 } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 const Onboard: FunctionComponent = () => {
   const navigate = useNavigate();

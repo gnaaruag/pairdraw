@@ -1,4 +1,5 @@
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import React from "react";
 
 export default function ProtectedRoute({ children }: { children: JSX.Element }) {
 	return (

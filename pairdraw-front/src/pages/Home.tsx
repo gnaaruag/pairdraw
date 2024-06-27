@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import React from "react";
 
 const NavigationCard: FunctionComponent<{
   title: string;

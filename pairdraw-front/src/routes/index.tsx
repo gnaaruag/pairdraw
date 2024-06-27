@@ -9,6 +9,7 @@ import JoinPair from "../pages/JoinPair";
 import PairHome from "../pages/PairHome";
 // import CanvasComponent from "../components/CanvasComponent";
 import FreeDrawCanvas from "../pages/FreeDrawCanvas";
+import React from "react";
 
 const router = createBrowserRouter([
   {

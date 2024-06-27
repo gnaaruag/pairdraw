@@ -5,6 +5,7 @@ import { GoCopy } from "react-icons/go";
 import PairCanvas from "../components/PairCanvas";
 import { API_ENDPOINT } from "../config/constants";
 import { useUser } from "@clerk/clerk-react";
+import React from "react";
 
 const PairHome: FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();

@@ -1,0 +1,8 @@
+{
+	"imports": {
+	  "@/components/CanvasComponent": "/src/components/CanvasComponent.tsx",
+	  "@/components/TldCanvas": "/src/components/TldCanvas.tsx",
+	  "@/pages/Freedraw": "/src/pages/Freedraw.tsx",
+	  "@/components/Footer": "/src/components/Footer.tsx"
+	}
+  }
