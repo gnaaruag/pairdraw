@@ -27,8 +27,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Navigate to backend 
-      uses: cd pairdraw-back
+    - name: Navigate to backend
+      run: cd pairdraw-back && echo "Now in $(pwd)"
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
