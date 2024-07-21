@@ -26,6 +26,12 @@ var pairingSchema = new mongoose.Schema({
 		type: String,
 		default: "",
 	},
+
+
+
+
+
+	
 	thumbnail: {
 		type: Number,
 		default: 0,
