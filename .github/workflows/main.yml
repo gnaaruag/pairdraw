@@ -24,34 +24,34 @@ jobs:
           --health-retries 5
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Navigate to backend
-      run: cd pairdraw-back && echo "Now in $(pwd)"
+      - name: Navigate to backend
+        run: cd pairdraw-back && echo "Now in $(pwd)"
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Run Jest tests
-      env:
-        TEST_DB_URI: mongodb://localhost:27017/testdb
-      run: npm test
+      - name: Run Jest tests
+        env:
+          TEST_DB_URI: mongodb://mongodb:27017/testdb
+        run: npm test
 
-    - name: Run Cypress tests
-      run: npx cypress run
+      - name: Run Cypress tests
+        run: npx cypress run
 
-    - name: Archive Cypress test results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: cypress-results
-        path: |
-          cypress/screenshots
-          cypress/videos
-          cypress/reports
+      - name: Archive Cypress test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-results
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/reports
