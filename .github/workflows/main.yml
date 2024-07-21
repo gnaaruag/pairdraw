@@ -1,0 +1,57 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Navigate to backend 
+      uses: cd pairdraw-back
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run Jest tests
+      env:
+        TEST_DB_URI: mongodb://localhost:27017/testdb
+      run: npm test
+
+    - name: Run Cypress tests
+      run: npx cypress run
+
+    - name: Archive Cypress test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: cypress-results
+        path: |
+          cypress/screenshots
+          cypress/videos
+          cypress/reports
