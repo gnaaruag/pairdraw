@@ -50,10 +50,11 @@ jobs:
     steps:
     - name: Send Slack notification
       uses: slackapi/slack-github-action@v1.23.0
+      channel-id: C07FZ7YRGKZ
       with:
         payload: |
           {
-            "channel": "C07FZ7YRGKZ",
+            "channel": "#general",
             "text": "Build and test failed for the backend on the main branch."
           }
       env:
