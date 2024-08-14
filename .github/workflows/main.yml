@@ -53,7 +53,7 @@ jobs:
       with:
         payload: |
           {
-            "channel": "#general",
+            "channel": "C07FZ7YRGKZ",
             "text": "Build and test failed for the backend on the main branch."
           }
       env:
