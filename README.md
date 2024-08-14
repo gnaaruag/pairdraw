@@ -77,6 +77,8 @@ or
 npm run dev
 ```
 
+Both services have docker configs too
+
 ### Usage
 1. Sign up for an account on PairDraw.
 2. Log in using your credentials.
