@@ -43,7 +43,7 @@ jobs:
         echo "Deploying to server..."
 
   notify:
-    needs: [run-tests, deploy]
+    needs: [build-and-test, deploy]
     runs-on: ubuntu-latest
     if: always()
     steps:
