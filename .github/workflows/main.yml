@@ -42,20 +42,11 @@ jobs:
         # Add your deployment script here
         echo "Deploying to server..."
 
-  notify:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    if: failure()
-
-    steps:
-    - name: Send Slack notification
-      uses: slackapi/slack-github-action@v1.23.0
-      channel-id: C07FZ7YRGKZ
-      with:
-        payload: |
-          {
-            "channel": "#general",
-            "text": "Build and test failed for the backend on the main branch."
-          }
-      env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  - name: Post to a Slack channel
+    id: slack
+    uses: slackapi/slack-github-action@v1.26.0
+    with:
+      channel-id: 'C07FZ7YRGKZCHANNEL_ID,ANOTHER_CHANNEL_ID'
+    slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+  env:
+    SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
