@@ -59,7 +59,7 @@ jobs:
               "text": "CI/CD process succeeded!" 
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_BOT_TOKEN }}
 
       - name: Send Slack notification on failure
         if: needs.run-tests.result != 'success' || needs.deploy.result != 'success'
