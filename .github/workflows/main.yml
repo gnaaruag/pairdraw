@@ -39,14 +39,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    if: needs.build-and-test.result == 'success'
-    steps:
-      # Deploy to production using a custom action
-      - name: Deploy to production
-        env:
-          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-        run: |
-          curl "$deploy_url"
+      if: needs.build-and-test.result == 'success'
+      steps:
+        # Deploy to production using a custom action
+        - name: Deploy to production
+          env:
+            deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          run: |
+            curl "$deploy_url"
 
   notify:
     needs: [build-and-test, deploy]
