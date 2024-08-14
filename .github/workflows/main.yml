@@ -27,6 +27,8 @@ jobs:
       run: |
         cd pairdraw-back
         npm test
+    env:
+      TEST_DB_URI: ${{ secrets.TEST_DB_URI }}
 
   deploy:
     runs-on: ubuntu-latest
