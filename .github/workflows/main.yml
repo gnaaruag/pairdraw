@@ -42,11 +42,23 @@ jobs:
         # Add your deployment script here
         echo "Deploying to server..."
 
-    - name: Post to a Slack channel
+    - name: Send custom JSON data to Slack workflow
       id: slack
       uses: slackapi/slack-github-action@v1.26.0
       with:
-        channel-id: 'C07FZ7YRGKZCHANNEL_ID,ANOTHER_CHANNEL_ID'
-        slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        payload: |
+        {
+          "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+          "blocks": [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+              }
+            }
+          ]
+        }
       env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
