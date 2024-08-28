@@ -4,11 +4,11 @@ import { UserButton } from "@clerk/clerk-react";
 import logo from "../assets/logo.svg";
 import React from "react";
 const navigation = [
-  { name: "Home", href: "/home", current: false },
-  { name: "New Pair", href: "/new-pair", current: false },
-  { name: "Pairlist", href: "/pairlist", current: false },
-  { name: "Join Pair", href: "/join-pair", current: false },
-  { name: "Freedraw", href: "/freedraw", current: false },
+  { name: "heim", href: "/home", current: false },
+  { name: "neues paar", href: "/new-pair", current: false },
+  { name: "paarliste", href: "/pairlist", current: false },
+  { name: "paar verbinden", href: "/join-pair", current: false },
+  { name: "kostenlose auslosung", href: "/freedraw", current: false },
   // { name: 'Store', href: '/store', current: false },
 ];
 

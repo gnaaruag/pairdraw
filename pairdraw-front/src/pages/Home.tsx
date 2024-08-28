@@ -30,14 +30,14 @@ const Home: FunctionComponent = () => {
       <Navbar />
       <div className="flex flex-wrap justify-center">
         <NavigationCard
-          title="Create new Pair"
+          title="neues paar erstellen"
           link="/new-pair"
-          description="click here to start a new pair with someone"
+          description="Klicken Sie hier, um ein neues Paar mit jemandem zu beginnen"
         />
         <NavigationCard
-          title="View existing pairs"
+          title="vorhandene paare anzeigen"
           link="/pairlist"
-          description="visit all your current pairings"
+          description="Besuchen Sie alle Ihre aktuellen Paarungen"
         />
         {/* Add more NavigationCards as needed */}
       </div>
